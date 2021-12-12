@@ -37,6 +37,30 @@ namespace BookStore.Repository
         {
             Author? author = obj as Author;
             if (author == null) { return; }
+
+            Global.Connection.Open();
+            string query = @"INSERT INTO Authors([Name])
+VALUES (@Name);";
+            SqlCommand command = new SqlCommand(query, Global.Connection);
+
+            SqlParameter par1 = new SqlParameter("@Name", SqlDbType.NVarChar);
+            par1.Value = author.Name;
+            command.Parameters.Add(par1);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception) { }
+            finally
+            {
+                Global.Connection.Close();
+            }
+        }
+
+        public override void Delete(int id)
+        {
+            Delete(id, "Authors");
         }
     }
 }

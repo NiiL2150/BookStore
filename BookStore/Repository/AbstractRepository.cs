@@ -23,6 +23,7 @@ namespace BookStore.Repository
         public abstract object Get(int? id);
         public abstract object Get(string keyword);
         public abstract void Add(object obj);
+        public abstract void Delete(int id);
 
         //Sample of text = query when fullQuery: $"SELECT Id, [Name] FROM Books"
         //Sample of text when !fullQuery: "Books", query = "SELECT * FROM Books"
@@ -47,6 +48,27 @@ namespace BookStore.Repository
             adapter = new SqlDataAdapter(command);
             adapter.Fill(dataTable);
             return dataTable;
+        }
+
+        protected void Delete(int id, string tableName)
+        {
+            Global.Connection.Open();
+            string query = $"DELETE FROM {tableName} WHERE Id = @Id";
+
+            command = new SqlCommand(query, Global.Connection);
+            SqlParameter par1 = new SqlParameter("@Id", SqlDbType.Int);
+            par1.Value = id;
+            command.Parameters.Add(par1);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception) { }
+            finally
+            {
+                Global.Connection.Close();
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace BookStore.View
 {
-    internal partial class BookStoreForm : Form
+    public partial class BookStoreForm : Form
     {
         GlobalRepository Repository { get; set; }
 
@@ -23,9 +23,24 @@ namespace BookStore.View
                 return null;
             }
         }
+        int? DeletedId
+        {
+            get
+            {
+                int id;
+                if (Int32.TryParse(textBoxDeletionId.Text, out id))
+                {
+                    if (id <= 0) return null;
+                    return id;
+                }
+                return null;
+            }
+        }
         bool IsKeyword { get => radioButtonKeyword.Checked; }
         object Source { set => dataGridView1.DataSource = value; }
         string NewName { get => textBoxAddName.Text; }
+        string PromoKeyword { get => textBoxPromoKeyword.Text; }
+        double PromoPercent { get { double tmp; return (100 - (Double.TryParse(textBoxPercent.Text, out tmp) ? tmp : 0)) / 100; } }
 
         public BookStoreForm(GlobalRepository repository)
         {
@@ -57,6 +72,12 @@ namespace BookStore.View
             else Source = Repository.Books.Get(SelectedId);
         }
 
+        private void buttonBooks2_Click(object sender, EventArgs e)
+        {
+            if (IsKeyword) Source = Repository.Books.GetEditReady(Keyword);
+            else Source = Repository.Books.GetEditReady(SelectedId);
+        }
+
         private void buttonAddGenre_Click(object sender, EventArgs e)
         {
             Genre genre = new Genre() { Name = NewName };
@@ -73,6 +94,47 @@ namespace BookStore.View
         {
             Author author = new Author() { Name = NewName };
             Repository.Authors.Add(author);
+        }
+
+        private void buttonAddBook_Click(object sender, EventArgs e)
+        {
+            AddBook form = new AddBook(this);
+            DialogResult result = form.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                Book? book = form.GetBook();
+                if (book != null)
+                {
+                    Repository.Books.Add(book);
+                }
+            }
+            form.Dispose();
+        }
+
+        private void buttonDeleteAuthor_Click(object sender, EventArgs e)
+        {
+            if (DeletedId != null) { Repository.Authors.Delete((int)DeletedId); }
+        }
+
+        private void buttonDeleteGenre_Click(object sender, EventArgs e)
+        {
+            if (DeletedId != null) { Repository.Genres.Delete((int)DeletedId); }
+        }
+
+        private void buttonDeletePublisher_Click(object sender, EventArgs e)
+        {
+            if (DeletedId != null) { Repository.Publishers.Delete((int)DeletedId); }
+        }
+
+        private void buttonDeleteBook_Click(object sender, EventArgs e)
+        {
+            if (DeletedId != null) { Repository.Books.Delete((int)DeletedId); }
+        }
+
+        private void buttonAddPromo_Click(object sender, EventArgs e)
+        {
+            Repository.Books.AddPromo(PromoPercent, PromoKeyword);
         }
     }
 }

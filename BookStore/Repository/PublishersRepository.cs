@@ -37,6 +37,30 @@ namespace BookStore.Repository
         {
             Publisher? publisher = obj as Publisher;
             if (publisher == null) { return; }
+
+            Global.Connection.Open();
+            string query = @"INSERT INTO Publishers([Name])
+VALUES (@Name);";
+            SqlCommand command = new SqlCommand(query, Global.Connection);
+
+            SqlParameter par1 = new SqlParameter("@Name", SqlDbType.NVarChar);
+            par1.Value = publisher.Name;
+            command.Parameters.Add(par1);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception) { }
+            finally
+            {
+                Global.Connection.Close();
+            }
+        }
+
+        public override void Delete(int id)
+        {
+            Delete(id, "Publishers");
         }
     }
 }

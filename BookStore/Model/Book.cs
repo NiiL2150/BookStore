@@ -11,11 +11,11 @@ namespace BookStore.Model
         public string Title { get; set; }
         public int Pages { get; set; }
         public DateTime Year { get; set; }
-        public int Stock { get; set; }
-        public int Sold { get; set; }
-        public decimal Cost { get; set; }
-        public decimal Price { get; set; }
-        public float PriceMultiplier { get; set; }
+        public int Stock { get; set; } = 0;
+        public int Sold { get; set; } = 0;
+        public decimal Cost { get; set; } = 0;
+        public decimal Price { get; set; } = 0;
+        public float PriceMultiplier { get; set; } = 1;
         public int? PreviousBookId { get; set; }
         public int AuthorId { get; set; }
         public int PublisherId { get; set; }
