@@ -35,6 +35,7 @@ JOIN Publishers AS P ON B.PublisherId = P.Id";
             }
 
             adapter = new SqlDataAdapter(command);
+            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
             adapter.Fill(dataTable);
             return dataTable;
         }
@@ -60,15 +61,21 @@ P.[Name] LIKE CONCAT('%', @Keyword, '%');";
             command.Parameters.Add(par1);
 
             adapter = new SqlDataAdapter(command);
+            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
             adapter.Fill(dataTable);
             return dataTable;
+        }
+
+        public override object GetAll()
+        {
+            return GetAll("Books");
         }
 
         public object GetEditReady(int? id)
         {
             dataTable = new DataTable();
             string query =
-@"SELECT * FROM Books AS B
+@"SELECT B.* FROM Books AS B
 JOIN Authors AS A ON B.AuthorId = A.Id
 JOIN Genres AS G ON B.GenreId = G.Id
 JOIN Publishers AS P ON B.PublisherId = P.Id";
@@ -84,6 +91,7 @@ JOIN Publishers AS P ON B.PublisherId = P.Id";
             }
 
             adapter = new SqlDataAdapter(command);
+            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
             adapter.Fill(dataTable);
             return dataTable;
         }
@@ -92,7 +100,7 @@ JOIN Publishers AS P ON B.PublisherId = P.Id";
         {
             dataTable = new DataTable();
             string query =
-@"SELECT * FROM Books AS B
+@"SELECT B.* FROM Books AS B
 JOIN Authors AS A ON B.AuthorId = A.Id
 JOIN Genres AS G ON B.GenreId = G.Id
 JOIN Publishers AS P ON B.PublisherId = P.Id
@@ -107,6 +115,7 @@ P.[Name] LIKE CONCAT('%', @Keyword, '%');";
             command.Parameters.Add(par1);
 
             adapter = new SqlDataAdapter(command);
+            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
             adapter.Fill(dataTable);
             return dataTable;
         }
@@ -134,7 +143,9 @@ VALUES (@Title, @AuthorID, @GenreID, @PublisherID, @Pages, @Cost, @Price, @Date"
             if(book.PreviousBookId != null)
             {
                 query += ", @PreviousBookId";
-                parameters.Append(new SqlParameter("@PreviousBookId", SqlDbType.Int) { Value = book.PreviousBookId });
+                parameters = parameters
+                    .Append(new SqlParameter("@PreviousBookId", SqlDbType.Int) 
+                    { Value = book.PreviousBookId }).ToArray();
             }
             else { query += ", null"; }
 
@@ -167,6 +178,7 @@ VALUES (@Title, @AuthorID, @GenreID, @PublisherID, @Pages, @Cost, @Price, @Date"
         {
             Global.Connection.Open();
             string query = @"UPDATE Books SET PriceMultiplier = @Percentage 
+FROM Books B
 JOIN Authors AS A ON B.AuthorId = A.Id
 JOIN Genres AS G ON B.GenreId = G.Id
 JOIN Publishers AS P ON B.PublisherId = P.Id
@@ -187,7 +199,7 @@ P.[Name] LIKE CONCAT('%', @Keyword, '%');";
             {
                 command.ExecuteNonQuery();
             }
-            catch (Exception) { }
+            catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message);}
             finally
             {
                 Global.Connection.Close();

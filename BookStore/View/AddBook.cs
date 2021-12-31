@@ -19,24 +19,28 @@ namespace BookStore.View
             InitializeComponent();
 
             ParentedForm = form;
+
+            comboBoxAuthor.Items.AddRange(ParentedForm.Repository.Authors.GetValues("Name").Keys.ToArray());
+            comboBoxGenre.Items.AddRange(ParentedForm.Repository.Genres.GetValues("Name").Keys.ToArray());
+            comboBoxPublisher.Items.AddRange(ParentedForm.Repository.Publishers.GetValues("Name").Keys.ToArray());
+            comboBoxPreviousBook.Items.AddRange(ParentedForm.Repository.Books.GetValues("Title").Keys.ToArray());
         }
         public Book? GetBook()
         {
             try
             {
-                int tmp = 0;
-                Int32.TryParse(textBoxPrevBook.Text, out tmp);
+                int? tmp = comboBoxPreviousBook.SelectedIndex == -1 ? null : ParentedForm.Repository.Books.GetValues("Title")[(string)comboBoxPreviousBook.SelectedItem];
                 Book book = new Book()
                 {
                     Title = textBoxTitle.Text,
-                    Pages = Int32.Parse(textBoxPages.Text),
+                    Pages = (int)numericPages.Value,
                     Year = dateTimePicker1.Value,
-                    Cost = Int32.Parse(textBoxCost.Text),
-                    Price = Int32.Parse(textBoxPrice.Text),
-                    AuthorId = Int32.Parse(textBoxAuthorId.Text),
-                    PublisherId = Int32.Parse(textBoxPublisherId.Text),
-                    GenreId = Int32.Parse(textBoxGenreId.Text),
-                    PreviousBookId = tmp > 0 ? tmp : null 
+                    Cost = numericCost.Value,
+                    Price = numericPrice.Value,
+                    AuthorId = ParentedForm.Repository.Authors.GetValues("Name")[(string)comboBoxAuthor.SelectedItem],
+                    PublisherId = ParentedForm.Repository.Publishers.GetValues("Name")[(string)comboBoxPublisher.SelectedItem],
+                    GenreId = ParentedForm.Repository.Genres.GetValues("Name")[(string)comboBoxGenre.SelectedItem],
+                    PreviousBookId = tmp
                 };
 
                 return book;

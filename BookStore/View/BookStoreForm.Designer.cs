@@ -57,6 +57,7 @@
             this.labelPromoKeyword = new System.Windows.Forms.Label();
             this.labelPercent = new System.Windows.Forms.Label();
             this.textBoxPercent = new System.Windows.Forms.TextBox();
+            this.buttonUpdate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -156,7 +157,7 @@
             // 
             // buttonAddGenre
             // 
-            this.buttonAddGenre.Location = new System.Drawing.Point(516, 12);
+            this.buttonAddGenre.Location = new System.Drawing.Point(560, 13);
             this.buttonAddGenre.Name = "buttonAddGenre";
             this.buttonAddGenre.Size = new System.Drawing.Size(75, 23);
             this.buttonAddGenre.TabIndex = 12;
@@ -166,7 +167,7 @@
             // 
             // buttonAddPublisher
             // 
-            this.buttonAddPublisher.Location = new System.Drawing.Point(597, 12);
+            this.buttonAddPublisher.Location = new System.Drawing.Point(641, 13);
             this.buttonAddPublisher.Name = "buttonAddPublisher";
             this.buttonAddPublisher.Size = new System.Drawing.Size(101, 23);
             this.buttonAddPublisher.TabIndex = 13;
@@ -176,7 +177,7 @@
             // 
             // buttonAddAuthor
             // 
-            this.buttonAddAuthor.Location = new System.Drawing.Point(428, 12);
+            this.buttonAddAuthor.Location = new System.Drawing.Point(472, 12);
             this.buttonAddAuthor.Name = "buttonAddAuthor";
             this.buttonAddAuthor.Size = new System.Drawing.Size(82, 23);
             this.buttonAddAuthor.TabIndex = 14;
@@ -186,14 +187,14 @@
             // 
             // textBoxAddName
             // 
-            this.textBoxAddName.Location = new System.Drawing.Point(428, 41);
+            this.textBoxAddName.Location = new System.Drawing.Point(472, 41);
             this.textBoxAddName.Name = "textBoxAddName";
-            this.textBoxAddName.Size = new System.Drawing.Size(270, 23);
+            this.textBoxAddName.Size = new System.Drawing.Size(226, 23);
             this.textBoxAddName.TabIndex = 15;
             // 
             // buttonAddBook
             // 
-            this.buttonAddBook.Location = new System.Drawing.Point(704, 12);
+            this.buttonAddBook.Location = new System.Drawing.Point(748, 12);
             this.buttonAddBook.Name = "buttonAddBook";
             this.buttonAddBook.Size = new System.Drawing.Size(84, 23);
             this.buttonAddBook.TabIndex = 16;
@@ -278,9 +279,9 @@
             // 
             // buttonAddPromo
             // 
-            this.buttonAddPromo.Location = new System.Drawing.Point(1094, 40);
+            this.buttonAddPromo.Location = new System.Drawing.Point(1060, 40);
             this.buttonAddPromo.Name = "buttonAddPromo";
-            this.buttonAddPromo.Size = new System.Drawing.Size(84, 23);
+            this.buttonAddPromo.Size = new System.Drawing.Size(82, 23);
             this.buttonAddPromo.TabIndex = 25;
             this.buttonAddPromo.Text = "Add promo";
             this.buttonAddPromo.UseVisualStyleBackColor = true;
@@ -288,16 +289,17 @@
             // 
             // buttonDeletePromos
             // 
-            this.buttonDeletePromos.Location = new System.Drawing.Point(1182, 40);
+            this.buttonDeletePromos.Location = new System.Drawing.Point(1148, 40);
             this.buttonDeletePromos.Name = "buttonDeletePromos";
-            this.buttonDeletePromos.Size = new System.Drawing.Size(70, 23);
+            this.buttonDeletePromos.Size = new System.Drawing.Size(104, 23);
             this.buttonDeletePromos.TabIndex = 26;
-            this.buttonDeletePromos.Text = "Promos";
+            this.buttonDeletePromos.Text = "Delete promos";
             this.buttonDeletePromos.UseVisualStyleBackColor = true;
+            this.buttonDeletePromos.Click += new System.EventHandler(this.buttonDeletePromos_Click);
             // 
             // textBoxPromoKeyword
             // 
-            this.textBoxPromoKeyword.Location = new System.Drawing.Point(838, 41);
+            this.textBoxPromoKeyword.Location = new System.Drawing.Point(804, 41);
             this.textBoxPromoKeyword.Name = "textBoxPromoKeyword";
             this.textBoxPromoKeyword.Size = new System.Drawing.Size(174, 23);
             this.textBoxPromoKeyword.TabIndex = 27;
@@ -305,7 +307,7 @@
             // labelPromoKeyword
             // 
             this.labelPromoKeyword.AutoSize = true;
-            this.labelPromoKeyword.Location = new System.Drawing.Point(738, 44);
+            this.labelPromoKeyword.Location = new System.Drawing.Point(704, 44);
             this.labelPromoKeyword.Name = "labelPromoKeyword";
             this.labelPromoKeyword.Size = new System.Drawing.Size(94, 15);
             this.labelPromoKeyword.TabIndex = 28;
@@ -314,7 +316,7 @@
             // labelPercent
             // 
             this.labelPercent.AutoSize = true;
-            this.labelPercent.Location = new System.Drawing.Point(1071, 44);
+            this.labelPercent.Location = new System.Drawing.Point(1037, 44);
             this.labelPercent.Name = "labelPercent";
             this.labelPercent.Size = new System.Drawing.Size(17, 15);
             this.labelPercent.TabIndex = 29;
@@ -322,16 +324,27 @@
             // 
             // textBoxPercent
             // 
-            this.textBoxPercent.Location = new System.Drawing.Point(1018, 41);
+            this.textBoxPercent.Location = new System.Drawing.Point(984, 41);
             this.textBoxPercent.Name = "textBoxPercent";
             this.textBoxPercent.Size = new System.Drawing.Size(47, 23);
             this.textBoxPercent.TabIndex = 30;
+            // 
+            // buttonUpdate
+            // 
+            this.buttonUpdate.Location = new System.Drawing.Point(395, 12);
+            this.buttonUpdate.Name = "buttonUpdate";
+            this.buttonUpdate.Size = new System.Drawing.Size(71, 23);
+            this.buttonUpdate.TabIndex = 31;
+            this.buttonUpdate.Text = "Update";
+            this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // BookStoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.textBoxPercent);
             this.Controls.Add(this.labelPercent);
             this.Controls.Add(this.labelPromoKeyword);
@@ -402,5 +415,6 @@
         private System.Windows.Forms.Label labelPromoKeyword;
         private System.Windows.Forms.Label labelPercent;
         private System.Windows.Forms.TextBox textBoxPercent;
+        private System.Windows.Forms.Button buttonUpdate;
     }
 }

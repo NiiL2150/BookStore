@@ -1,13 +1,17 @@
 ﻿using BookStore.Model;
 using BookStore.Repository;
 using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace BookStore.View
 {
     public partial class BookStoreForm : Form
     {
-        GlobalRepository Repository { get; set; }
+        public GlobalRepository Repository { get; set; }
+        public SqlDataAdapter RecentAdapter { get; set; }
+        public DataTable RecentTable { get; set; }
 
         string Keyword { get => textBoxKeyword.Text; }
         int? SelectedId
@@ -48,34 +52,40 @@ namespace BookStore.View
             Repository = repository;
         }
 
+        private void buttonGet_Click(AbstractRepository repository)
+        {
+            if (IsKeyword) Source = repository.Get(Keyword);
+            else Source = repository.Get(SelectedId);
+            RecentAdapter = repository.Adapter;
+            RecentTable = repository.DataTable;
+        }
+
         private void buttonAuthors_Click(object sender, EventArgs e)
         {
-            if (IsKeyword) Source = Repository.Authors.Get(Keyword);
-            else Source = Repository.Authors.Get(SelectedId);
+            buttonGet_Click(Repository.Authors);
         }
 
         private void buttonGenres_Click(object sender, EventArgs e)
         {
-            if (IsKeyword) Source = Repository.Genres.Get(Keyword);
-            else Source = Repository.Genres.Get(SelectedId);
+            buttonGet_Click(Repository.Genres);
         }
 
         private void buttonPublishers_Click(object sender, EventArgs e)
         {
-            if (IsKeyword) Source = Repository.Publishers.Get(Keyword);
-            else Source = Repository.Publishers.Get(SelectedId);
+            buttonGet_Click(Repository.Publishers);
         }
 
         private void buttonBooks_Click(object sender, EventArgs e)
         {
-            if (IsKeyword) Source = Repository.Books.Get(Keyword);
-            else Source = Repository.Books.Get(SelectedId);
+            buttonGet_Click(Repository.Books);
         }
 
         private void buttonBooks2_Click(object sender, EventArgs e)
         {
             if (IsKeyword) Source = Repository.Books.GetEditReady(Keyword);
             else Source = Repository.Books.GetEditReady(SelectedId);
+            RecentAdapter = Repository.Books.Adapter;
+            RecentTable = Repository.Books.DataTable;
         }
 
         private void buttonAddGenre_Click(object sender, EventArgs e)
@@ -135,6 +145,20 @@ namespace BookStore.View
         private void buttonAddPromo_Click(object sender, EventArgs e)
         {
             Repository.Books.AddPromo(PromoPercent, PromoKeyword);
+        }
+
+        private void buttonDeletePromos_Click(object sender, EventArgs e)
+        {
+            Repository.Books.DeletePromos();
+        }
+
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            DataTable? table = RecentTable.GetChanges();
+            if(table != null)
+            {
+                RecentAdapter.Update(table);
+            }
         }
     }
 }

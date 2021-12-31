@@ -13,6 +13,8 @@ namespace BookStore.Repository
         protected DataTable dataTable;
         protected SqlCommand command;
         protected SqlDataAdapter adapter;
+        public SqlDataAdapter Adapter { get { return adapter; } }
+        public DataTable DataTable { get { return dataTable; } }
         protected GlobalRepository Global { get; set; }
 
         public AbstractRepository(GlobalRepository repository)
@@ -24,6 +26,7 @@ namespace BookStore.Repository
         public abstract object Get(string keyword);
         public abstract void Add(object obj);
         public abstract void Delete(int id);
+        public abstract object GetAll();
 
         //Sample of text = query when fullQuery: $"SELECT Id, [Name] FROM Books"
         //Sample of text when !fullQuery: "Books", query = "SELECT * FROM Books"
@@ -46,8 +49,32 @@ namespace BookStore.Repository
             }
 
             adapter = new SqlDataAdapter(command);
+            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
             adapter.Fill(dataTable);
             return dataTable;
+        }
+
+        protected object GetAll(string text)
+        {
+            dataTable = new DataTable();
+            string query = $@"SELECT * FROM {text}";
+
+            command = new SqlCommand(query, Global.Connection);
+
+            adapter = new SqlDataAdapter(command);
+            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+            adapter.Fill(dataTable);
+            return dataTable;
+        }
+
+        public Dictionary<string, int> GetValues(string valueType)
+        {
+            Dictionary<string, int> vs = new Dictionary<string, int>();
+            foreach (DataRow item in ((DataTable)GetAll()).Rows)
+            {
+                vs.Add((string)item[valueType], (int)item["Id"]);
+            }
+            return vs;
         }
 
         protected void Delete(int id, string tableName)

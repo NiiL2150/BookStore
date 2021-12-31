@@ -29,8 +29,14 @@ namespace BookStore.Repository
             command.Parameters.Add(par1);
 
             adapter = new SqlDataAdapter(command);
+            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
             adapter.Fill(dataTable);
             return dataTable;
+        }
+
+        public override object GetAll()
+        {
+            return GetAll("Genres");
         }
 
         public override void Add(object obj)
