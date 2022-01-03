@@ -38,7 +38,7 @@ namespace BookStore.Repository
             if (fullQuery) { query = text; }
             else { query = @"SELECT * FROM " + text; }
 
-            if (id != null) { query += " WHERE Id = @Id"; };
+            if (id != null && !fullQuery) { query += " WHERE Id = @Id"; };
 
             command = new SqlCommand(query, Global.Connection);
             if (id != null)

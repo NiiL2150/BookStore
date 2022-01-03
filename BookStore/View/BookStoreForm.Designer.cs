@@ -58,16 +58,19 @@
             this.labelPercent = new System.Windows.Forms.Label();
             this.textBoxPercent = new System.Windows.Forms.TextBox();
             this.buttonUpdate = new System.Windows.Forms.Button();
+            this.buttonSales = new System.Windows.Forms.Button();
+            this.buttonAddSale = new System.Windows.Forms.Button();
+            this.buttonDeleteSale = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 70);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 99);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(1264, 611);
+            this.dataGridView1.Size = new System.Drawing.Size(1264, 582);
             this.dataGridView1.TabIndex = 0;
             // 
             // buttonAuthors
@@ -339,11 +342,44 @@
             this.buttonUpdate.UseVisualStyleBackColor = true;
             this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
+            // buttonSales
+            // 
+            this.buttonSales.Location = new System.Drawing.Point(12, 70);
+            this.buttonSales.Name = "buttonSales";
+            this.buttonSales.Size = new System.Drawing.Size(75, 23);
+            this.buttonSales.TabIndex = 32;
+            this.buttonSales.Text = "Sales";
+            this.buttonSales.UseVisualStyleBackColor = true;
+            this.buttonSales.Click += new System.EventHandler(this.buttonSales_Click);
+            // 
+            // buttonAddSale
+            // 
+            this.buttonAddSale.Location = new System.Drawing.Point(472, 70);
+            this.buttonAddSale.Name = "buttonAddSale";
+            this.buttonAddSale.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddSale.TabIndex = 33;
+            this.buttonAddSale.Text = "Add sale";
+            this.buttonAddSale.UseVisualStyleBackColor = true;
+            this.buttonAddSale.Click += new System.EventHandler(this.buttonAddSale_Click);
+            // 
+            // buttonDeleteSale
+            // 
+            this.buttonDeleteSale.Location = new System.Drawing.Point(890, 70);
+            this.buttonDeleteSale.Name = "buttonDeleteSale";
+            this.buttonDeleteSale.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteSale.TabIndex = 34;
+            this.buttonDeleteSale.Text = "Delete sale";
+            this.buttonDeleteSale.UseVisualStyleBackColor = true;
+            this.buttonDeleteSale.Click += new System.EventHandler(this.buttonDeleteSale_Click);
+            // 
             // BookStoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.buttonDeleteSale);
+            this.Controls.Add(this.buttonAddSale);
+            this.Controls.Add(this.buttonSales);
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.textBoxPercent);
             this.Controls.Add(this.labelPercent);
@@ -416,5 +452,8 @@
         private System.Windows.Forms.Label labelPercent;
         private System.Windows.Forms.TextBox textBoxPercent;
         private System.Windows.Forms.Button buttonUpdate;
+        private System.Windows.Forms.Button buttonSales;
+        private System.Windows.Forms.Button buttonAddSale;
+        private System.Windows.Forms.Button buttonDeleteSale;
     }
 }

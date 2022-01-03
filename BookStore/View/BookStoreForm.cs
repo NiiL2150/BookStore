@@ -160,5 +160,24 @@ namespace BookStore.View
                 RecentAdapter.Update(table);
             }
         }
+
+        private void buttonSales_Click(object sender, EventArgs e)
+        {
+            buttonGet_Click(Repository.Sales);
+        }
+
+        private void buttonAddSale_Click(object sender, EventArgs e)
+        {
+            if (Int32.TryParse(NewName, out int tmp))
+            {
+                Sale sale = new Sale() { BookId = tmp };
+                Repository.Sales.Add(sale);
+            }
+        }
+
+        private void buttonDeleteSale_Click(object sender, EventArgs e)
+        {
+            if (DeletedId != null) { Repository.Sales.Delete((int)DeletedId); }
+        }
     }
 }

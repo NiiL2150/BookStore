@@ -38,6 +38,11 @@ PreviousBookId int NULL,
 AuthorId int NOT NULL FOREIGN KEY REFERENCES Authors(ID),
 PublisherId int NOT NULL FOREIGN KEY REFERENCES Publishers(ID),
 GenreId int NOT NULL FOREIGN KEY REFERENCES Genres(ID)
+);
+
+CREATE TABLE Sales(
+Id int Identity (1,1) PRIMARY KEY,
+BookId int NOT NULL FOREIGN KEY REFERENCES Books(ID)
 );";
 
                 SqlCommand command = new SqlCommand(query, connection);

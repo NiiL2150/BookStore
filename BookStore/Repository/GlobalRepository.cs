@@ -24,6 +24,7 @@ namespace BookStore.Repository
             Genres = new GenresRepository(this);
             Publishers = new PublishersRepository(this);
             Authors = new AuthorsRepository(this);
+            Sales = new SalesRepository(this);
 
             Database.Init(Connection);
         }
@@ -33,5 +34,6 @@ namespace BookStore.Repository
         public GenresRepository Genres { get; }
         public PublishersRepository Publishers { get; }
         public AuthorsRepository Authors { get; }
+        public SalesRepository Sales { get; }
     }
 }

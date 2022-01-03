@@ -29,6 +29,11 @@ PublisherId int NOT NULL FOREIGN KEY REFERENCES Publishers(ID),
 GenreId int NOT NULL FOREIGN KEY REFERENCES Genres(ID)
 );
 
+CREATE TABLE Sales(
+Id int Identity (1,1) PRIMARY KEY,
+BookId int NOT NULL FOREIGN KEY REFERENCES Books(ID)
+);
+
 INSERT INTO Authors([Name])
 VALUES ('J. K. Rowling'), ('Tolkien')
 
@@ -50,3 +55,11 @@ Price * PriceMultiplier AS CurrentPrice, [Year], PreviousBookId FROM Books AS B
 JOIN Authors AS A ON B.AuthorId = A.Id
 JOIN Genres AS G ON B.GenreId = G.Id
 JOIN Publishers AS P ON B.PublisherId = P.Id
+
+IF (SELECT Stock FROM Books WHERE Id = 2) > 0
+BEGIN
+	INSERT INTO Sales([BookId])
+	VALUES (2);
+	UPDATE Books SET Stock = Stock - 1
+	WHERE Id = 2;
+END;
