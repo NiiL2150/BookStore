@@ -64,3 +64,7 @@ BEGIN
 	UPDATE Books SET Stock = Stock - 1
 	WHERE Id = 2;
 END;
+
+SELECT COUNT(Sales.BookId) [Sold books], Sales.BookId FROM Books
+JOIN Sales ON Books.Id = Sales.BookId
+GROUP BY Sales.BookId

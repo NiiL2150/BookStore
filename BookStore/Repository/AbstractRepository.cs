@@ -13,13 +13,15 @@ namespace BookStore.Repository
         protected DataTable dataTable;
         protected SqlCommand command;
         protected SqlDataAdapter adapter;
+        protected string TableName { get; set; }
         public SqlDataAdapter Adapter { get { return adapter; } }
         public DataTable DataTable { get { return dataTable; } }
         protected GlobalRepository Global { get; set; }
 
-        public AbstractRepository(GlobalRepository repository)
+        public AbstractRepository(GlobalRepository repository, string tableName)
         {
             Global = repository;
+            TableName = tableName;
         }
 
         public abstract object Get(int? id);
@@ -30,6 +32,25 @@ namespace BookStore.Repository
 
         //Sample of text = query when fullQuery: $"SELECT Id, [Name] FROM Books"
         //Sample of text when !fullQuery: "Books", query = "SELECT * FROM Books"
+        protected void ExecuteNonQuery()
+        {
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                Global.Connection.Close();
+            }
+        }
+        protected object RefreshedDataTable()
+        {
+            adapter = new SqlDataAdapter(command);
+            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+            adapter.Fill(dataTable);
+            return dataTable;
+        }
+
         protected object Get(int? id, string text, bool fullQuery)
         {
             dataTable = new DataTable();
@@ -43,15 +64,11 @@ namespace BookStore.Repository
             command = new SqlCommand(query, Global.Connection);
             if (id != null)
             {
-                SqlParameter par1 = new SqlParameter("@Id", SqlDbType.Int);
-                par1.Value = id;
+                SqlParameter par1 = SqlHelper.SqlParameter("@Id", SqlDbType.Int, id);
                 command.Parameters.Add(par1);
             }
 
-            adapter = new SqlDataAdapter(command);
-            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-            adapter.Fill(dataTable);
-            return dataTable;
+            return RefreshedDataTable();
         }
 
         protected object GetAll(string text)
@@ -61,10 +78,7 @@ namespace BookStore.Repository
 
             command = new SqlCommand(query, Global.Connection);
 
-            adapter = new SqlDataAdapter(command);
-            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-            adapter.Fill(dataTable);
-            return dataTable;
+            return RefreshedDataTable();
         }
 
         public Dictionary<string, int> GetValues(string valueType)
@@ -82,20 +96,23 @@ namespace BookStore.Repository
             Global.Connection.Open();
             string query = $"DELETE FROM {tableName} WHERE Id = @Id";
 
-            command = new SqlCommand(query, Global.Connection);
-            SqlParameter par1 = new SqlParameter("@Id", SqlDbType.Int);
-            par1.Value = id;
-            command.Parameters.Add(par1);
+            command = SqlHelper.SqlCommand(query, Global.Connection,
+                SqlHelper.SqlParameter("Id", SqlDbType.Int, id));
 
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception) { }
-            finally
-            {
-                Global.Connection.Close();
-            }
+            ExecuteNonQuery();
+        }
+
+        public object Top(int number)
+        {
+            return Top(number, DateOnly.MinValue, DateOnly.MaxValue);
+        }
+
+        public abstract string TopQuery { get; }
+        public object Top(int number, DateOnly from, DateOnly to)
+        {
+            Global.Connection.Open();
+            command = SqlHelper.SqlCommand(TopQuery, Global.Connection);
+            return RefreshedDataTable();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace BookStore.Repository
 {
     public class SalesRepository : AbstractRepository
     {
-        public SalesRepository(GlobalRepository repository) : base(repository) { }
+        public SalesRepository(GlobalRepository repository) : base(repository, "Sales") { }
 
         public override object Get(int? id)
         {
@@ -29,15 +29,11 @@ namespace BookStore.Repository
                 dataTable = new DataTable();
                 string query = @"SELECT * FROM Sales WHERE SaleDate = @SaleDate";
 
-                command = new SqlCommand(query, Global.Connection);
-                SqlParameter par1 = new SqlParameter("@SaleDate", SqlDbType.Date);
-                par1.Value = date;
-                command.Parameters.Add(par1);
+                
+                command = SqlHelper.SqlCommand(query, Global.Connection,
+                    SqlHelper.SqlParameter("@SaleDate", SqlDbType.Date, date.ToDateTime()));
 
-                adapter = new SqlDataAdapter(command);
-                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-                adapter.Fill(dataTable);
-                return dataTable;
+                return RefreshedDataTable();
             }
             else return GetAll();
         }
@@ -60,25 +56,11 @@ BEGIN
 	UPDATE Books SET Stock = Stock - 1
 	WHERE Id = @BookId;
 END;";
-            SqlCommand command = new SqlCommand(query, Global.Connection);
+            command = SqlHelper.SqlCommand(query, Global.Connection,
+                SqlHelper.SqlParameter("@BookId", SqlDbType.Int, sale.BookId),
+                SqlHelper.SqlParameter("@SaleDate", SqlDbType.Date, sale.SaleDateTime));
 
-            SqlParameter par1 = new SqlParameter("@BookId", SqlDbType.Int);
-            par1.Value = sale.BookId;
-            command.Parameters.Add(par1);
-
-            SqlParameter par2 = new SqlParameter("@SaleDate", SqlDbType.Date);
-            par2.Value = sale.SaleDateTime;
-            command.Parameters.Add(par2);
-
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception) { }
-            finally
-            {
-                Global.Connection.Close();
-            }
+            ExecuteNonQuery();
         }
 
         public override void Delete(int id)

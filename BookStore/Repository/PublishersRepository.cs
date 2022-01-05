@@ -11,7 +11,7 @@ namespace BookStore.Repository
 {
     public class PublishersRepository : AbstractRepository
     {
-        public PublishersRepository(GlobalRepository repository) : base(repository) { }
+        public PublishersRepository(GlobalRepository repository) : base(repository, "Publishers") { }
 
         public override object Get(int? id)
         {
@@ -23,15 +23,10 @@ namespace BookStore.Repository
             dataTable = new DataTable();
             string query = @"SELECT * FROM Publishers WHERE [Name] LIKE CONCAT('%', @Keyword, '%')";
 
-            command = new SqlCommand(query, Global.Connection);
-            SqlParameter par1 = new SqlParameter("@Keyword", SqlDbType.NVarChar);
-            par1.Value = keyword;
-            command.Parameters.Add(par1);
+            command = SqlHelper.SqlCommand(query, Global.Connection,
+                SqlHelper.SqlParameter("@Keyword", SqlDbType.NVarChar, keyword));
 
-            adapter = new SqlDataAdapter(command);
-            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-            adapter.Fill(dataTable);
-            return dataTable;
+            return RefreshedDataTable();
         }
 
         public override object GetAll()
@@ -47,21 +42,10 @@ namespace BookStore.Repository
             Global.Connection.Open();
             string query = @"INSERT INTO Publishers([Name])
 VALUES (@Name);";
-            SqlCommand command = new SqlCommand(query, Global.Connection);
+            SqlCommand command = SqlHelper.SqlCommand(query, Global.Connection,
+                SqlHelper.SqlParameter("@Name", SqlDbType.NVarChar, publisher.Name));
 
-            SqlParameter par1 = new SqlParameter("@Name", SqlDbType.NVarChar);
-            par1.Value = publisher.Name;
-            command.Parameters.Add(par1);
-
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception) { }
-            finally
-            {
-                Global.Connection.Close();
-            }
+            ExecuteNonQuery();
         }
 
         public override void Delete(int id)

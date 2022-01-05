@@ -10,7 +10,7 @@ namespace BookStore.Model
     {
         public int BookId { get; set; }
         public DateOnly SaleDate { get; set; }
-        public DateTime SaleDateTime { get => SaleDate.ToDateTime(TimeOnly.MinValue); }
+        public DateTime SaleDateTime { get => SaleDate.ToDateTime(); }
 
         public Sale()
         {

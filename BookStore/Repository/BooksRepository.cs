@@ -11,7 +11,7 @@ namespace BookStore.Repository
 {
     public class BooksRepository : AbstractRepository
     {
-        public BooksRepository(GlobalRepository repository) : base(repository) { }
+        public BooksRepository(GlobalRepository repository) : base(repository, "Books") { }
 
         public override object Get(int? id)
         {
@@ -34,10 +34,7 @@ JOIN Publishers AS P ON B.PublisherId = P.Id";
                 command.Parameters.Add(par1);
             }
 
-            adapter = new SqlDataAdapter(command);
-            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-            adapter.Fill(dataTable);
-            return dataTable;
+            return RefreshedDataTable();
         }
 
         public override object Get(string keyword)
@@ -55,15 +52,10 @@ A.[Name] LIKE CONCAT('%', @Keyword, '%') OR
 G.[Name] LIKE CONCAT('%', @Keyword, '%') OR
 P.[Name] LIKE CONCAT('%', @Keyword, '%');";
 
-            command = new SqlCommand(query, Global.Connection);
-            SqlParameter par1 = new SqlParameter("@Keyword", SqlDbType.NVarChar);
-            par1.Value = keyword;
-            command.Parameters.Add(par1);
+            command = SqlHelper.SqlCommand(query, Global.Connection,
+                SqlHelper.SqlParameter("@Keyword", SqlDbType.NVarChar, keyword));
 
-            adapter = new SqlDataAdapter(command);
-            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-            adapter.Fill(dataTable);
-            return dataTable;
+            return RefreshedDataTable();
         }
 
         public override object GetAll()
@@ -85,15 +77,11 @@ JOIN Publishers AS P ON B.PublisherId = P.Id";
             command = new SqlCommand(query, Global.Connection);
             if (id != null)
             {
-                SqlParameter par1 = new SqlParameter("@Id", SqlDbType.Int);
-                par1.Value = id;
+                SqlParameter par1 = SqlHelper.SqlParameter("@Id", SqlDbType.Int, id);
                 command.Parameters.Add(par1);
             }
 
-            adapter = new SqlDataAdapter(command);
-            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-            adapter.Fill(dataTable);
-            return dataTable;
+            return RefreshedDataTable();
         }
 
         public object GetEditReady(string keyword)
@@ -109,15 +97,10 @@ A.[Name] LIKE CONCAT('%', @Keyword, '%') OR
 G.[Name] LIKE CONCAT('%', @Keyword, '%') OR
 P.[Name] LIKE CONCAT('%', @Keyword, '%');";
 
-            command = new SqlCommand(query, Global.Connection);
-            SqlParameter par1 = new SqlParameter("@Keyword", SqlDbType.NVarChar);
-            par1.Value = keyword;
-            command.Parameters.Add(par1);
+            command = SqlHelper.SqlCommand(query, Global.Connection,
+                SqlHelper.SqlParameter("@Keyword", SqlDbType.NVarChar, keyword));
 
-            adapter = new SqlDataAdapter(command);
-            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-            adapter.Fill(dataTable);
-            return dataTable;
+            return RefreshedDataTable();
         }
 
         public override void Add(object obj)
@@ -130,43 +113,30 @@ P.[Name] LIKE CONCAT('%', @Keyword, '%');";
 VALUES (@Title, @AuthorID, @GenreID, @PublisherID, @Pages, @Cost, @Price, @Date";
 
             SqlParameter[] parameters = new SqlParameter[] {
-                new SqlParameter("@Title", SqlDbType.NVarChar) { Value = book.Title },
-                new SqlParameter("@AuthorID", SqlDbType.Int) { Value = book.AuthorId },
-                new SqlParameter("@GenreID", SqlDbType.Int) { Value = book.GenreId },
-                new SqlParameter("@PublisherID", SqlDbType.Int) { Value = book.PublisherId },
-                new SqlParameter("@Pages", SqlDbType.Int) { Value = book.Pages },
-                new SqlParameter("@Cost", SqlDbType.Decimal) { Value = book.Cost },
-                new SqlParameter("@Price", SqlDbType.Decimal) { Value = book.Price },
-                new SqlParameter("@Date", SqlDbType.DateTime) { Value = book.Year }
+                SqlHelper.SqlParameter("@Title", SqlDbType.NVarChar, book.Title),
+                SqlHelper.SqlParameter("@AuthorID", SqlDbType.Int, book.AuthorId),
+                SqlHelper.SqlParameter("@GenreID", SqlDbType.Int, book.GenreId),
+                SqlHelper.SqlParameter("@PublisherID", SqlDbType.Int, book.PublisherId),
+                SqlHelper.SqlParameter("@Pages", SqlDbType.Int, book.Pages),
+                SqlHelper.SqlParameter("@Cost", SqlDbType.Decimal, book.Cost),
+                SqlHelper.SqlParameter("@Price", SqlDbType.Decimal, book.Price),
+                SqlHelper.SqlParameter("@Date", SqlDbType.DateTime, book.Year)
             };
 
             if(book.PreviousBookId != null)
             {
                 query += ", @PreviousBookId";
                 parameters = parameters
-                    .Append(new SqlParameter("@PreviousBookId", SqlDbType.Int) 
-                    { Value = book.PreviousBookId }).ToArray();
+                    .Append(SqlHelper.SqlParameter("@PreviousBookId", SqlDbType.Int,
+                    book.PreviousBookId)).ToArray();
             }
             else { query += ", null"; }
 
             query += ");";
 
-            SqlCommand command = new SqlCommand(query, Global.Connection);
+            SqlCommand command = SqlHelper.SqlCommand(query, Global.Connection, parameters);
 
-            foreach (var item in parameters)
-            {
-                command.Parameters.Add(item);
-            }
-
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception) { }
-            finally
-            {
-                Global.Connection.Close();
-            }
+            ExecuteNonQuery();
         }
 
         public override void Delete(int id)
@@ -187,23 +157,11 @@ A.[Name] LIKE CONCAT('%', @Keyword, '%') OR
 G.[Name] LIKE CONCAT('%', @Keyword, '%') OR
 P.[Name] LIKE CONCAT('%', @Keyword, '%');";
 
-            command = new SqlCommand(query, Global.Connection);
-            SqlParameter par1 = new SqlParameter("@Percentage", SqlDbType.Float);
-            par1.Value = percentage;
-            command.Parameters.Add(par1);
-            SqlParameter par2 = new SqlParameter("@Keyword", SqlDbType.NVarChar);
-            par2.Value = text;
-            command.Parameters.Add(par2);
+            command = SqlHelper.SqlCommand(query, Global.Connection,
+                SqlHelper.SqlParameter("@Percentage", SqlDbType.Float, percentage),
+                SqlHelper.SqlParameter("@Keyword", SqlDbType.NVarChar, text));
 
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message);}
-            finally
-            {
-                Global.Connection.Close();
-            }
+            ExecuteNonQuery();
         }
 
         public void DeletePromos()
@@ -213,15 +171,7 @@ P.[Name] LIKE CONCAT('%', @Keyword, '%');";
 
             command = new SqlCommand(query, Global.Connection);
 
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception) { }
-            finally
-            {
-                Global.Connection.Close();
-            }
+            ExecuteNonQuery();
         }
     }
 }
