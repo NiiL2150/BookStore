@@ -21,7 +21,7 @@ namespace BookStore.Repository
         public override object Get(string keyword)
         {
             dataTable = new DataTable();
-            string query = @"SELECT * FROM Sales WHERE [Name] LIKE CONCAT('%', @Keyword, '%')";
+            string query = @"SELECT * FROM Authors WHERE [Name] LIKE CONCAT('%', @Keyword, '%')";
 
             command = new SqlCommand(query, Global.Connection);
             SqlParameter par1 = new SqlParameter("@Keyword", SqlDbType.NVarChar);
