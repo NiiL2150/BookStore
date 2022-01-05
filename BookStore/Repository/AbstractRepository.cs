@@ -108,10 +108,12 @@ namespace BookStore.Repository
         }
 
         public abstract string TopQuery { get; }
-        public object Top(int number, DateOnly from, DateOnly to)
+        public object Top(int number, DateOnly fromDate, DateOnly toDate)
         {
             Global.Connection.Open();
-            command = SqlHelper.SqlCommand(TopQuery, Global.Connection);
+            command = SqlHelper.SqlCommand(TopQuery, Global.Connection,
+                SqlHelper.SqlParameter("@FromDate", SqlDbType.Date, fromDate.ToDateTime()),
+                SqlHelper.SqlParameter("@ToDate", SqlDbType.Date, toDate.ToDateTime()));
             return RefreshedDataTable();
         }
     }
