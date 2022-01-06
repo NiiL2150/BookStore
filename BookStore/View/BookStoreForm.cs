@@ -54,10 +54,32 @@ namespace BookStore.View
 
         private void buttonGet_Click(AbstractRepository repository)
         {
-            if (IsKeyword) Source = repository.Get(Keyword);
-            else Source = repository.Get(SelectedId);
+            if (IsKeyword) { Source = repository.Get(Keyword); }
+            else { Source = repository.Get(SelectedId); }
             RecentAdapter = repository.Adapter;
             RecentTable = repository.DataTable;
+            buttonUpdate.Enabled = true;
+        }
+
+        private void buttonTop_Click(AbstractRepository repository)
+        {
+            if(!Int32.TryParse(textBoxTopNumber.Text, out int topNumber))
+            {
+                topNumber = 1;
+            }
+            if (topNumber < 1)
+            {
+                topNumber = 1;
+            }
+            if(dateTimeFrom.Value > dateTimeTo.Value)
+            {
+                Source = repository.Top(topNumber);
+            }
+            else
+            {
+                Source = repository.Top(topNumber, dateTimeFrom.Value.ToDateOnly(), dateTimeTo.Value.ToDateOnly());
+            }
+            buttonUpdate.Enabled = false;
         }
 
         private void buttonAuthors_Click(object sender, EventArgs e)
@@ -78,14 +100,15 @@ namespace BookStore.View
         private void buttonBooks_Click(object sender, EventArgs e)
         {
             buttonGet_Click(Repository.Books);
+            buttonUpdate.Enabled = false;
         }
 
         private void buttonBooks2_Click(object sender, EventArgs e)
         {
-            if (IsKeyword) Source = Repository.Books.GetEditReady(Keyword);
-            else Source = Repository.Books.GetEditReady(SelectedId);
+            Source = Repository.Books.GetEditReady(SelectedId);
             RecentAdapter = Repository.Books.Adapter;
             RecentTable = Repository.Books.DataTable;
+            buttonUpdate.Enabled = true;
         }
 
         private void buttonAddGenre_Click(object sender, EventArgs e)
@@ -178,6 +201,26 @@ namespace BookStore.View
         private void buttonDeleteSale_Click(object sender, EventArgs e)
         {
             if (DeletedId != null) { Repository.Sales.Delete((int)DeletedId); }
+        }
+
+        private void buttonTopAuthor_Click(object sender, EventArgs e)
+        {
+            buttonTop_Click(Repository.Authors);
+        }
+
+        private void buttonTopGenre_Click(object sender, EventArgs e)
+        {
+            buttonTop_Click(Repository.Genres);
+        }
+
+        private void buttonTopPublisher_Click(object sender, EventArgs e)
+        {
+            buttonTop_Click(Repository.Publishers);
+        }
+
+        private void buttonTopBook_Click(object sender, EventArgs e)
+        {
+            buttonTop_Click(Repository.Books);
         }
     }
 }

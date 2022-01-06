@@ -13,6 +13,23 @@ namespace BookStore.Repository
     {
         public PublishersRepository(GlobalRepository repository) : base(repository, "Publishers") { }
 
+        public override string TopQuery
+        {
+            get
+            {
+                return @"
+SELECT TOP(@Number) WITH TIES P.Id, P.[Name], SUM(subq.SoldBooks) [Sold Books] FROM Publishers AS P
+JOIN 
+(SELECT S.BookId, B.Title, COUNT(S.BookId) [SoldBooks], B.PublisherId FROM Books AS B
+JOIN Sales AS S ON B.Id = S.BookId
+WHERE S.SaleDate BETWEEN @FromDate AND @ToDate
+GROUP BY S.BookId, B.Title, B.PublisherId)
+subq ON subq.PublisherId = P.Id
+GROUP BY P.Id, P.[Name]
+ORDER BY SUM(subq.SoldBooks) DESC";
+            }
+        }
+
         public override object Get(int? id)
         {
             return Get(id, "Publishers", false);

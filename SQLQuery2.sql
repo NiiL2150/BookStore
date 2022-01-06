@@ -65,6 +65,12 @@ BEGIN
 	WHERE Id = 2;
 END;
 
-SELECT COUNT(Sales.BookId) [Sold books], Sales.BookId FROM Books
-JOIN Sales ON Books.Id = Sales.BookId
-GROUP BY Sales.BookId
+SELECT TOP(3) WITH TIES P.Id, P.[Name], SUM(subq.SoldBooks) [Sold Books] FROM Publishers AS P
+JOIN 
+(SELECT S.BookId, B.Title, COUNT(S.BookId) [SoldBooks], B.PublisherId FROM Books AS B
+JOIN Sales AS S ON B.Id = S.BookId
+WHERE S.SaleDate BETWEEN '1-1-1900' AND GETDATE()
+GROUP BY S.BookId, B.Title, B.PublisherId)
+subq ON subq.PublisherId = P.Id
+GROUP BY P.Id, P.[Name]
+ORDER BY SUM(subq.SoldBooks) DESC

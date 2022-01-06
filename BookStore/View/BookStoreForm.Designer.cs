@@ -61,6 +61,15 @@
             this.buttonSales = new System.Windows.Forms.Button();
             this.buttonAddSale = new System.Windows.Forms.Button();
             this.buttonDeleteSale = new System.Windows.Forms.Button();
+            this.dateTimeFrom = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxTopNumber = new System.Windows.Forms.TextBox();
+            this.dateTimeTo = new System.Windows.Forms.DateTimePicker();
+            this.buttonTopAuthor = new System.Windows.Forms.Button();
+            this.buttonTopGenre = new System.Windows.Forms.Button();
+            this.buttonTopPublisher = new System.Windows.Forms.Button();
+            this.buttonTopBook = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -133,7 +142,7 @@
             // 
             this.textBoxKeyword.Location = new System.Drawing.Point(241, 41);
             this.textBoxKeyword.Name = "textBoxKeyword";
-            this.textBoxKeyword.Size = new System.Drawing.Size(148, 23);
+            this.textBoxKeyword.Size = new System.Drawing.Size(206, 23);
             this.textBoxKeyword.TabIndex = 9;
             // 
             // radioButtonId
@@ -160,31 +169,31 @@
             // 
             // buttonAddGenre
             // 
-            this.buttonAddGenre.Location = new System.Drawing.Point(560, 13);
+            this.buttonAddGenre.Location = new System.Drawing.Point(577, 12);
             this.buttonAddGenre.Name = "buttonAddGenre";
-            this.buttonAddGenre.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddGenre.Size = new System.Drawing.Size(48, 23);
             this.buttonAddGenre.TabIndex = 12;
-            this.buttonAddGenre.Text = "Add genre";
+            this.buttonAddGenre.Text = "Genre";
             this.buttonAddGenre.UseVisualStyleBackColor = true;
             this.buttonAddGenre.Click += new System.EventHandler(this.buttonAddGenre_Click);
             // 
             // buttonAddPublisher
             // 
-            this.buttonAddPublisher.Location = new System.Drawing.Point(641, 13);
+            this.buttonAddPublisher.Location = new System.Drawing.Point(631, 12);
             this.buttonAddPublisher.Name = "buttonAddPublisher";
-            this.buttonAddPublisher.Size = new System.Drawing.Size(101, 23);
+            this.buttonAddPublisher.Size = new System.Drawing.Size(67, 23);
             this.buttonAddPublisher.TabIndex = 13;
-            this.buttonAddPublisher.Text = "Add publisher";
+            this.buttonAddPublisher.Text = "Publisher";
             this.buttonAddPublisher.UseVisualStyleBackColor = true;
             this.buttonAddPublisher.Click += new System.EventHandler(this.buttonAddPublisher_Click);
             // 
             // buttonAddAuthor
             // 
-            this.buttonAddAuthor.Location = new System.Drawing.Point(472, 12);
+            this.buttonAddAuthor.Location = new System.Drawing.Point(516, 12);
             this.buttonAddAuthor.Name = "buttonAddAuthor";
-            this.buttonAddAuthor.Size = new System.Drawing.Size(82, 23);
+            this.buttonAddAuthor.Size = new System.Drawing.Size(55, 23);
             this.buttonAddAuthor.TabIndex = 14;
-            this.buttonAddAuthor.Text = "Add author";
+            this.buttonAddAuthor.Text = "Author";
             this.buttonAddAuthor.UseVisualStyleBackColor = true;
             this.buttonAddAuthor.Click += new System.EventHandler(this.buttonAddAuthor_Click);
             // 
@@ -197,18 +206,18 @@
             // 
             // buttonAddBook
             // 
-            this.buttonAddBook.Location = new System.Drawing.Point(748, 12);
+            this.buttonAddBook.Location = new System.Drawing.Point(704, 13);
             this.buttonAddBook.Name = "buttonAddBook";
-            this.buttonAddBook.Size = new System.Drawing.Size(84, 23);
+            this.buttonAddBook.Size = new System.Drawing.Size(48, 23);
             this.buttonAddBook.TabIndex = 16;
-            this.buttonAddBook.Text = "Add book";
+            this.buttonAddBook.Text = "Book";
             this.buttonAddBook.UseVisualStyleBackColor = true;
             this.buttonAddBook.Click += new System.EventHandler(this.buttonAddBook_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(838, 16);
+            this.label1.Location = new System.Drawing.Point(804, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 15);
             this.label1.TabIndex = 17;
@@ -217,7 +226,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1155, 16);
+            this.label2.Location = new System.Drawing.Point(1169, 17);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(21, 15);
             this.label2.TabIndex = 18;
@@ -225,7 +234,7 @@
             // 
             // buttonDeleteGenre
             // 
-            this.buttonDeleteGenre.Location = new System.Drawing.Point(954, 12);
+            this.buttonDeleteGenre.Location = new System.Drawing.Point(920, 12);
             this.buttonDeleteGenre.Name = "buttonDeleteGenre";
             this.buttonDeleteGenre.Size = new System.Drawing.Size(58, 23);
             this.buttonDeleteGenre.TabIndex = 19;
@@ -235,7 +244,7 @@
             // 
             // buttonDeleteAuthor
             // 
-            this.buttonDeleteAuthor.Location = new System.Drawing.Point(890, 12);
+            this.buttonDeleteAuthor.Location = new System.Drawing.Point(856, 12);
             this.buttonDeleteAuthor.Name = "buttonDeleteAuthor";
             this.buttonDeleteAuthor.Size = new System.Drawing.Size(58, 23);
             this.buttonDeleteAuthor.TabIndex = 20;
@@ -245,7 +254,7 @@
             // 
             // buttonDeletePublisher
             // 
-            this.buttonDeletePublisher.Location = new System.Drawing.Point(1018, 12);
+            this.buttonDeletePublisher.Location = new System.Drawing.Point(984, 12);
             this.buttonDeletePublisher.Name = "buttonDeletePublisher";
             this.buttonDeletePublisher.Size = new System.Drawing.Size(70, 23);
             this.buttonDeletePublisher.TabIndex = 21;
@@ -255,7 +264,7 @@
             // 
             // buttonDeleteBook
             // 
-            this.buttonDeleteBook.Location = new System.Drawing.Point(1094, 12);
+            this.buttonDeleteBook.Location = new System.Drawing.Point(1060, 12);
             this.buttonDeleteBook.Name = "buttonDeleteBook";
             this.buttonDeleteBook.Size = new System.Drawing.Size(55, 23);
             this.buttonDeleteBook.TabIndex = 22;
@@ -265,9 +274,9 @@
             // 
             // textBoxDeletionId
             // 
-            this.textBoxDeletionId.Location = new System.Drawing.Point(1182, 13);
+            this.textBoxDeletionId.Location = new System.Drawing.Point(1196, 13);
             this.textBoxDeletionId.Name = "textBoxDeletionId";
-            this.textBoxDeletionId.Size = new System.Drawing.Size(70, 23);
+            this.textBoxDeletionId.Size = new System.Drawing.Size(56, 23);
             this.textBoxDeletionId.TabIndex = 23;
             // 
             // buttonBooks2
@@ -282,7 +291,7 @@
             // 
             // buttonAddPromo
             // 
-            this.buttonAddPromo.Location = new System.Drawing.Point(1060, 40);
+            this.buttonAddPromo.Location = new System.Drawing.Point(1060, 41);
             this.buttonAddPromo.Name = "buttonAddPromo";
             this.buttonAddPromo.Size = new System.Drawing.Size(82, 23);
             this.buttonAddPromo.TabIndex = 25;
@@ -334,7 +343,8 @@
             // 
             // buttonUpdate
             // 
-            this.buttonUpdate.Location = new System.Drawing.Point(395, 12);
+            this.buttonUpdate.Enabled = false;
+            this.buttonUpdate.Location = new System.Drawing.Point(12, 70);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(71, 23);
             this.buttonUpdate.TabIndex = 31;
@@ -344,9 +354,9 @@
             // 
             // buttonSales
             // 
-            this.buttonSales.Location = new System.Drawing.Point(12, 70);
+            this.buttonSales.Location = new System.Drawing.Point(395, 12);
             this.buttonSales.Name = "buttonSales";
-            this.buttonSales.Size = new System.Drawing.Size(75, 23);
+            this.buttonSales.Size = new System.Drawing.Size(52, 23);
             this.buttonSales.TabIndex = 32;
             this.buttonSales.Text = "Sales";
             this.buttonSales.UseVisualStyleBackColor = true;
@@ -354,29 +364,117 @@
             // 
             // buttonAddSale
             // 
-            this.buttonAddSale.Location = new System.Drawing.Point(472, 70);
+            this.buttonAddSale.Location = new System.Drawing.Point(757, 12);
             this.buttonAddSale.Name = "buttonAddSale";
-            this.buttonAddSale.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddSale.Size = new System.Drawing.Size(41, 23);
             this.buttonAddSale.TabIndex = 33;
-            this.buttonAddSale.Text = "Add sale";
+            this.buttonAddSale.Text = "Sale";
             this.buttonAddSale.UseVisualStyleBackColor = true;
             this.buttonAddSale.Click += new System.EventHandler(this.buttonAddSale_Click);
             // 
             // buttonDeleteSale
             // 
-            this.buttonDeleteSale.Location = new System.Drawing.Point(890, 70);
+            this.buttonDeleteSale.Location = new System.Drawing.Point(1118, 12);
             this.buttonDeleteSale.Name = "buttonDeleteSale";
-            this.buttonDeleteSale.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteSale.Size = new System.Drawing.Size(45, 23);
             this.buttonDeleteSale.TabIndex = 34;
-            this.buttonDeleteSale.Text = "Delete sale";
+            this.buttonDeleteSale.Text = "Sale";
             this.buttonDeleteSale.UseVisualStyleBackColor = true;
             this.buttonDeleteSale.Click += new System.EventHandler(this.buttonDeleteSale_Click);
+            // 
+            // dateTimeFrom
+            // 
+            this.dateTimeFrom.Location = new System.Drawing.Point(276, 70);
+            this.dateTimeFrom.Name = "dateTimeFrom";
+            this.dateTimeFrom.Size = new System.Drawing.Size(126, 23);
+            this.dateTimeFrom.TabIndex = 35;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(472, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(38, 15);
+            this.label3.TabIndex = 36;
+            this.label3.Text = "Add...";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(176, 73);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 15);
+            this.label4.TabIndex = 37;
+            this.label4.Text = "Top...";
+            // 
+            // textBoxTopNumber
+            // 
+            this.textBoxTopNumber.Location = new System.Drawing.Point(217, 70);
+            this.textBoxTopNumber.Name = "textBoxTopNumber";
+            this.textBoxTopNumber.Size = new System.Drawing.Size(53, 23);
+            this.textBoxTopNumber.TabIndex = 38;
+            // 
+            // dateTimeTo
+            // 
+            this.dateTimeTo.Location = new System.Drawing.Point(408, 70);
+            this.dateTimeTo.Name = "dateTimeTo";
+            this.dateTimeTo.Size = new System.Drawing.Size(126, 23);
+            this.dateTimeTo.TabIndex = 39;
+            // 
+            // buttonTopAuthor
+            // 
+            this.buttonTopAuthor.Location = new System.Drawing.Point(540, 70);
+            this.buttonTopAuthor.Name = "buttonTopAuthor";
+            this.buttonTopAuthor.Size = new System.Drawing.Size(58, 23);
+            this.buttonTopAuthor.TabIndex = 40;
+            this.buttonTopAuthor.Text = "Author";
+            this.buttonTopAuthor.UseVisualStyleBackColor = true;
+            this.buttonTopAuthor.Click += new System.EventHandler(this.buttonTopAuthor_Click);
+            // 
+            // buttonTopGenre
+            // 
+            this.buttonTopGenre.Location = new System.Drawing.Point(604, 70);
+            this.buttonTopGenre.Name = "buttonTopGenre";
+            this.buttonTopGenre.Size = new System.Drawing.Size(54, 23);
+            this.buttonTopGenre.TabIndex = 41;
+            this.buttonTopGenre.Text = "Genre";
+            this.buttonTopGenre.UseVisualStyleBackColor = true;
+            this.buttonTopGenre.Click += new System.EventHandler(this.buttonTopGenre_Click);
+            // 
+            // buttonTopPublisher
+            // 
+            this.buttonTopPublisher.Location = new System.Drawing.Point(664, 70);
+            this.buttonTopPublisher.Name = "buttonTopPublisher";
+            this.buttonTopPublisher.Size = new System.Drawing.Size(69, 23);
+            this.buttonTopPublisher.TabIndex = 42;
+            this.buttonTopPublisher.Text = "Publisher";
+            this.buttonTopPublisher.UseVisualStyleBackColor = true;
+            this.buttonTopPublisher.Click += new System.EventHandler(this.buttonTopPublisher_Click);
+            // 
+            // buttonTopBook
+            // 
+            this.buttonTopBook.Location = new System.Drawing.Point(739, 70);
+            this.buttonTopBook.Name = "buttonTopBook";
+            this.buttonTopBook.Size = new System.Drawing.Size(59, 23);
+            this.buttonTopBook.TabIndex = 43;
+            this.buttonTopBook.Text = "Book";
+            this.buttonTopBook.UseVisualStyleBackColor = true;
+            this.buttonTopBook.Click += new System.EventHandler(this.buttonTopBook_Click);
             // 
             // BookStoreForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.buttonTopBook);
+            this.Controls.Add(this.buttonTopPublisher);
+            this.Controls.Add(this.buttonTopGenre);
+            this.Controls.Add(this.buttonTopAuthor);
+            this.Controls.Add(this.dateTimeTo);
+            this.Controls.Add(this.textBoxTopNumber);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.dateTimeFrom);
             this.Controls.Add(this.buttonDeleteSale);
             this.Controls.Add(this.buttonAddSale);
             this.Controls.Add(this.buttonSales);
@@ -455,5 +553,14 @@
         private System.Windows.Forms.Button buttonSales;
         private System.Windows.Forms.Button buttonAddSale;
         private System.Windows.Forms.Button buttonDeleteSale;
+        private System.Windows.Forms.DateTimePicker dateTimeFrom;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxTopNumber;
+        private System.Windows.Forms.DateTimePicker dateTimeTo;
+        private System.Windows.Forms.Button buttonTopAuthor;
+        private System.Windows.Forms.Button buttonTopGenre;
+        private System.Windows.Forms.Button buttonTopPublisher;
+        private System.Windows.Forms.Button buttonTopBook;
     }
 }

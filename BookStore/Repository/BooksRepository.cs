@@ -13,6 +13,19 @@ namespace BookStore.Repository
     {
         public BooksRepository(GlobalRepository repository) : base(repository, "Books") { }
 
+        public override string TopQuery
+        {
+            get
+            {
+                return @"
+SELECT TOP(@Number) WITH TIES S.BookId, B.Title, COUNT(S.BookId) [Sold books] FROM Books AS B
+JOIN Sales AS S ON B.Id = S.BookId
+WHERE S.SaleDate BETWEEN @FromDate AND @ToDate
+GROUP BY S.BookId, B.Title
+ORDER BY COUNT(S.BookId) DESC";
+            }
+        }
+
         public override object Get(int? id)
         {
             dataTable = new DataTable();
@@ -67,10 +80,7 @@ P.[Name] LIKE CONCAT('%', @Keyword, '%');";
         {
             dataTable = new DataTable();
             string query =
-@"SELECT B.* FROM Books AS B
-JOIN Authors AS A ON B.AuthorId = A.Id
-JOIN Genres AS G ON B.GenreId = G.Id
-JOIN Publishers AS P ON B.PublisherId = P.Id";
+@"SELECT B.* FROM Books AS B";
 
             if (id != null) { query += " WHERE B.Id = @Id"; };
 
@@ -80,25 +90,6 @@ JOIN Publishers AS P ON B.PublisherId = P.Id";
                 SqlParameter par1 = SqlHelper.SqlParameter("@Id", SqlDbType.Int, id);
                 command.Parameters.Add(par1);
             }
-
-            return RefreshedDataTable();
-        }
-
-        public object GetEditReady(string keyword)
-        {
-            dataTable = new DataTable();
-            string query =
-@"SELECT B.* FROM Books AS B
-JOIN Authors AS A ON B.AuthorId = A.Id
-JOIN Genres AS G ON B.GenreId = G.Id
-JOIN Publishers AS P ON B.PublisherId = P.Id
-WHERE B.Title LIKE CONCAT('%', @Keyword, '%') OR
-A.[Name] LIKE CONCAT('%', @Keyword, '%') OR
-G.[Name] LIKE CONCAT('%', @Keyword, '%') OR
-P.[Name] LIKE CONCAT('%', @Keyword, '%');";
-
-            command = SqlHelper.SqlCommand(query, Global.Connection,
-                SqlHelper.SqlParameter("@Keyword", SqlDbType.NVarChar, keyword));
 
             return RefreshedDataTable();
         }

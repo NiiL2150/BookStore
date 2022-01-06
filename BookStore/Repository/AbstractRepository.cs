@@ -110,8 +110,9 @@ namespace BookStore.Repository
         public abstract string TopQuery { get; }
         public object Top(int number, DateOnly fromDate, DateOnly toDate)
         {
-            Global.Connection.Open();
+            dataTable = new DataTable();
             command = SqlHelper.SqlCommand(TopQuery, Global.Connection,
+                SqlHelper.SqlParameter("@Number", SqlDbType.Int, number),
                 SqlHelper.SqlParameter("@FromDate", SqlDbType.Date, fromDate.ToDateTime()),
                 SqlHelper.SqlParameter("@ToDate", SqlDbType.Date, toDate.ToDateTime()));
             return RefreshedDataTable();

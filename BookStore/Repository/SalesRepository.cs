@@ -13,6 +13,14 @@ namespace BookStore.Repository
     {
         public SalesRepository(GlobalRepository repository) : base(repository, "Sales") { }
 
+        public override string TopQuery
+        {
+            get
+            {
+                return @"";
+            }
+        }
+
         public override object Get(int? id)
         {
             return Get(id, "Sales", false);
