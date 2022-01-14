@@ -11,7 +11,7 @@ namespace BookStore.Model
         public int BookId { get; set; }
         public DateOnly SaleDate { get; set; }
         public DateTime SaleDateTime { get => SaleDate.ToDateTime(); }
-
+        public int Quantity { get; set; }
         public Sale()
         {
             SaleDate = DateOnly.FromDateTime(DateTime.Now);

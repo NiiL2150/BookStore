@@ -191,11 +191,18 @@ namespace BookStore.View
 
         private void buttonAddSale_Click(object sender, EventArgs e)
         {
-            if (Int32.TryParse(NewName, out int tmp))
+            AddSale form = new AddSale(this);
+            DialogResult result = form.ShowDialog();
+
+            if (result == DialogResult.OK)
             {
-                Sale sale = new Sale() { BookId = tmp };
-                Repository.Sales.Add(sale);
+                Sale? sale = form.GetSale();
+                if (sale != null)
+                {
+                    Repository.Sales.Add(sale);
+                }
             }
+            form.Dispose();
         }
 
         private void buttonDeleteSale_Click(object sender, EventArgs e)

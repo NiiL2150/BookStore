@@ -57,16 +57,17 @@ namespace BookStore.Repository
             if (sale == null) { return; }
 
             Global.Connection.Open();
-            string query = @"IF (SELECT Stock FROM Books WHERE Id = @BookId) > 0
+            string query = @"IF (SELECT Stock FROM Books WHERE Id = @BookId) >= @Quantity
 BEGIN
-	INSERT INTO Sales([BookId], [SaleDate])
-	VALUES (@BookId, @SaleDate);
-	UPDATE Books SET Stock = Stock - 1
+	INSERT INTO Sales([BookId], [SaleDate], [Quantity])
+	VALUES (@BookId, @SaleDate, @Quantity);
+	UPDATE Books SET Stock = Stock - @Quantity
 	WHERE Id = @BookId;
 END;";
             command = SqlHelper.SqlCommand(query, Global.Connection,
                 SqlHelper.SqlParameter("@BookId", SqlDbType.Int, sale.BookId),
-                SqlHelper.SqlParameter("@SaleDate", SqlDbType.Date, sale.SaleDateTime));
+                SqlHelper.SqlParameter("@SaleDate", SqlDbType.Date, sale.SaleDateTime),
+                SqlHelper.SqlParameter("@Quantity", SqlDbType.Int, sale.Quantity));
 
             ExecuteNonQuery();
         }

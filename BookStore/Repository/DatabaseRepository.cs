@@ -43,6 +43,7 @@ GenreId int NOT NULL FOREIGN KEY REFERENCES Genres(ID)
 CREATE TABLE Sales(
 Id int Identity (1,1) PRIMARY KEY,
 BookId int NOT NULL FOREIGN KEY REFERENCES Books(ID),
+Quantity int NOT NULL CHECK (Quantity > 0) DEFAULT 1,
 SaleDate Date NOT NULL DEFAULT GETDATE()
 );";
 
@@ -51,7 +52,7 @@ SaleDate Date NOT NULL DEFAULT GETDATE()
             }
             catch (SqlException ex)
             {
-                if (ex.Number != 2714) //If database already exists, does nothing
+                if (ex.Number != 2714) //If database already exists (2714), does nothing
                 {
                     throw ex;
                 }
